@@ -22,6 +22,8 @@ def version(cmd):
 
 
 def main():
+    import argparse
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     rows, bad = [], 0
 
     def row(ok, name, detail, required=True):

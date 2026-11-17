@@ -118,4 +118,4 @@ Tests: `python -m unittest discover -s tests`.
 - The font is Anton, under the SIL Open Font License. The code is MIT.
 - Your photos, voice and video stay on your computer.
 
-Made by Josh Pocock. More free skills and the step-by-step page: https://strideaiacademy.com/r/paper-cutout
+Made by Josh Pocock. More free skills and the step-by-step guide, free in Stride AI Academy: https://www.skool.com/stride-ai-academy-7057

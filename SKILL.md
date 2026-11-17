@@ -41,8 +41,8 @@ here, say so, and still do steps 1, 2 and 5 by hand (the script, the scene plan,
    before rendering. If you edit `scenes.json` by hand (different words on a tile, a different desk,
    a held shot), score it again.
 6. **Look before you hand it over.** Pull four frames from `JOB/final.mp4` with ffmpeg and check:
-   no word runs off the frame, the face is not covered, the first frame already has the person and
-   a word. Fix `scenes.json` and rebuild if not.
+   no word runs off the frame, the face is not covered, the first frame already has the person, and the
+   first word lands within the first half second. Fix `scenes.json` and rebuild if not.
 
 ## Hard rules
 
