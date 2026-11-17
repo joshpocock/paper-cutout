@@ -2,6 +2,22 @@
 
 Written for Windows, macOS and Linux; tested on Windows 11. Nothing here needs an account or a key.
 
+## Install the skill by hand
+
+Clone it into the `skills` folder inside your Claude config folder, named `paper-cutout`:
+
+Windows (Command Prompt):
+```
+git clone https://github.com/joshpocock/paper-cutout.git "%USERPROFILE%\.claude\skills\paper-cutout"
+```
+
+Mac or Linux (untested on Mac):
+```
+git clone https://github.com/joshpocock/paper-cutout.git "$HOME/.claude"/skills/paper-cutout
+```
+
+Then check this computer and run the test: `python scripts/doctor.py` and `python scripts/selftest.py`.
+
 ## What to install once
 
 | Thing | Why | Check it |
@@ -34,7 +50,7 @@ script on your phone and pass the file: `python scripts/voice.py JOB --file take
 - **A word runs off the frame:** open `JOB/scenes.json`, shorten that tile's text or split it into
   two tiles, then run `score.py`, `build.py` and `render.py` again.
 - **Render is slow:** expect about 7 seconds of render per second of video on a busy computer, less on an idle
-  one. A 17 second video took 2 minutes 42 seconds start to finish in testing.
+  one. In testing, videos of 11 to 32 seconds took 1 min 42 s to 3 min 49 s start to finish (runs saved).
 
 ## The job folder
 

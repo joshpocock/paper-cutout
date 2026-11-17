@@ -1,6 +1,8 @@
 # Paper Cutout
 
-One Claude skill that turns a script, a photo and a voice into a paper cut-out stop-motion video, built in code. Free, MIT, no signup, no API key, nothing to connect.
+One Claude skill that turns a script, a photo and a voice into a paper cut-out stop-motion video, built in code. It replaces the video editor and the paid project files people sell for this look. Free, MIT, no signup, no API key, nothing to connect.
+
+![Twelve frames from a real run of the skill](docs/sample-sheet.jpg)
 
 **No video editor, no AI video or image model. Your face is your real photo. Nothing is posted or uploaded: the video is a file on your computer.**
 
@@ -13,7 +15,7 @@ One Claude skill that turns a script, a photo and a voice into a paper cut-out s
 
 ## Install
 
-Two lines. Paste this into Claude and it does the rest.
+It needs Claude Code (it runs Python, Node.js and ffmpeg on your computer), so it does not run in the Claude.ai chat. Paste these two lines into Claude Code and it does the rest:
 
 ```
 https://github.com/joshpocock/paper-cutout
@@ -21,13 +23,13 @@ https://github.com/joshpocock/paper-cutout
 Install this skill, then confirm /paper-cutout works.
 ```
 
+Claude then runs `python scripts/doctor.py` (checks Python, Pillow, Node.js, ffmpeg and the font) and `python scripts/selftest.py` (draws a test face, plans and scores a short video without a render, and saves `paper/selftest/assets/selftest_frame.png`). It opens that frame and shows it to you before you make your own.
+
 ### By hand
 
-```
-git clone https://github.com/joshpocock/paper-cutout.git ~/.claude/skills/paper-cutout
-```
+Clone the repo into the skills folder inside your Claude config folder, as a folder named `paper-cutout`. The exact command for Windows and Mac is in [references/setup.md](references/setup.md).
 
-You also need Python 3.8+, Pillow (`pip install pillow`), Node.js 20+ and ffmpeg. Details and fixes: [references/setup.md](references/setup.md). Tested on Windows 11.
+You also need Python 3.8+, Pillow (`pip install pillow`), Node.js 20+ and ffmpeg. Details and fixes: [references/setup.md](references/setup.md). Tested on Windows 11. The Mac steps are the same but untested.
 
 ## Commands
 
@@ -69,14 +71,14 @@ PASS  rule 5  words placed outside their scene       0        want 0
 13 of 13 rows pass
 ```
 
-The whole run, from photo to finished 16.6 second video, took 2 minutes 42 seconds (116 seconds of that was the render), on a computer that was busy with other renders.
+That saved run, from photo to finished 16.6 second video, took 3 minutes 49 seconds on a computer that was busy with other renders. Three more saved runs on the same Windows 11 machine, all 13 of 13: an 85-word script with a red border (31.9 s of video, 2 min 14 s), a wide 1920x1080 video (15.2 s, 2 min 0 s), and a phone photo with a real background cut out by rembg (11.5 s, 1 min 42 s). The first run on a new computer also downloads HyperFrames, a browser and the voice model once.
 
 ## The five rules
 
 1. Sixteen poses a second, not thirty.
 2. A new desk about every second and a half.
 3. Words do not bounce. They appear whole.
-4. The camera never stops, and every cut lands two frames before the word.
+4. The camera keeps moving, and every cut lands two frames before the word.
 5. The paper person: a real face, printed big, on a tiny body, and the pose changes once per sentence.
 
 The numbers behind each rule: [references/look-rules.md](references/look-rules.md).
@@ -94,8 +96,19 @@ The numbers behind each rule: [references/look-rules.md](references/look-rules.m
 | `scripts/score.py` | the scorecard | standard library |
 | `scripts/build.py` | the page that gets rendered, and the paper hits | standard library, ffmpeg |
 | `scripts/render.py` | the mp4 | Node.js, ffmpeg |
+| `scripts/doctor.py` | checks this computer has what it needs | standard library |
+| `scripts/selftest.py` | a full test run with a drawn face, no render | Pillow |
 
 Tests: `python -m unittest discover -s tests`.
+
+## Where it is weak
+
+- Word timing is an estimate from word length unless you give it a transcript with word times (`words.py --from`).
+- The mouth is a swap between your two whole photos, so the two need the same framing or the face jumps.
+- Use a head-and-shoulders photo. A photo that shows your whole upper body sits oddly on the tiny paper body.
+- It is built for short scripts: 30 to 120 words, 15 to 45 seconds.
+- The desks are drawn in code. It does not make props or hands; bring your own images if you want them.
+- The scorecard checks the plan, not the pixels. Always look at the frames.
 
 ## The fine print
 

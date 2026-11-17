@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _common import FPS, POSES_PER_SECOND, die, load_json, save_json, say  # noqa: E402
 
 DESKS = ["grid", "wood", "mat", "kraft", "felt", "cork"]
-MOVES = ["pull", "push", "push", "pull", "push", "pull", "pull"]   # 4 of 7 pull out
+MOVES = ["push", "pull"]   # alternate: pull-outs stay 33 to 50% for any scene count from 2 (the reels: 46%)
 COLOURS = ["black", "white", "accent", "red"]
 MAX_TILE_WORDS = 3
 MAX_TILES = 3

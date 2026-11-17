@@ -16,6 +16,9 @@ here, say so, and still do steps 1, 2 and 5 by hand (the script, the scene plan,
 
 ## Steps
 
+0. **First time only: prove it works here.** Run `python scripts/doctor.py`, then `python scripts/selftest.py`. Open
+   `paper/selftest/assets/selftest_frame.png` and look at it before telling the user the skill is ready. If the doctor
+   fails, fix what it names (see references/setup.md) before anything else.
 1. **Intake. Ask for three things, once.** (a) A photo of the person, head and shoulders, mouth
    closed, and if they have one, the same framing with the mouth open (that is what makes it talk).
    It must be their own face or a character they made. (b) The script: 30 to 120 words, short

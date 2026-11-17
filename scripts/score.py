@@ -15,7 +15,25 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _common import die, load_json  # noqa: E402
 
 
+NEED = ("start", "end", "desk", "tiles", "move", "sentence")
+
+
+def check(d):
+    """Refuse a scenes.json the scorecard cannot read, with a message instead of a traceback."""
+    if not isinstance(d, dict) or not isinstance(d.get("scenes"), list):
+        die("scenes.json has no \"scenes\" list. Run plan.py again.")
+    if not d["scenes"]:
+        die("scenes.json has no scenes. Check JOB/script.txt has words, then run words.py and plan.py.")
+    for i, s in enumerate(d["scenes"]):
+        miss = [k for k in NEED if k not in s]
+        if miss:
+            die("scene %d in scenes.json is missing %s. Fix it or run plan.py again." % (i + 1, ", ".join(miss)))
+        if not s["end"] > s["start"]:
+            die("scene %d ends before it starts (%s to %s)." % (i + 1, s["start"], s["end"]))
+
+
 def score(d):
+    check(d)
     sc = d["scenes"]
     rows = []
 
@@ -57,7 +75,11 @@ def main():
     p = Path(a.job) / "scenes.json"
     if not p.exists():
         die("no %s. Run plan.py first." % p)
-    rows = score(load_json(p))
+    try:
+        data = load_json(p)
+    except ValueError as e:
+        die("scenes.json is not valid JSON (%s). Fix it or run plan.py again." % e)
+    rows = score(data)
     ok = sum(r["pass"] for r in rows)
     if a.json:
         print(json.dumps({"pass": ok, "of": len(rows), "rows": rows}, indent=1))

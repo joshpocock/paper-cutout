@@ -100,5 +100,28 @@ class ScoreTest(unittest.TestCase):
         self.assertIn("pose changes inside a sentence", self.failed(p))
 
 
+class BadInputTest(unittest.TestCase):
+    """score.py stops with a message, not a traceback, on a broken scenes.json."""
+
+    def exits(self, data):
+        with self.assertRaises(SystemExit) as cm:
+            score_mod.score(data)
+        return cm.exception.code
+
+    def test_no_scenes(self):
+        self.assertEqual(self.exits({"scenes": []}), 1)
+
+    def test_not_a_list(self):
+        self.assertEqual(self.exits({"poses_per_second": 16}), 1)
+
+    def test_missing_key(self):
+        self.assertEqual(self.exits({"scenes": [{"start": 0, "end": 1, "desk": "grid", "tiles": [], "move": "push"}]}), 1)
+
+    def test_one_scene_scores(self):
+        rows = score_mod.score({"poses_per_second": 16, "fps": 30, "cut_lead_frames": 2,
+                                "scenes": [{"start": 0, "end": 1.2, "desk": "grid", "tiles": [], "move": "push", "sentence": 0, "pose": 0}]})
+        self.assertEqual(len(rows), 13)
+
+
 if __name__ == "__main__":
     unittest.main()
